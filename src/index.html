@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Intro to Docker</title>
+
+    <link rel="stylesheet" href="main.css">
+
+    <script type="text/javascript" src="plugin/markdown/marked.js"></script>
+    <script type="text/javascript" src="plugin/highlight/highlight.js"></script>
+    <script type="text/javascript" src="plugin/notes/notes.js"></script>
+  </head>
+  <body>
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+    <script src="main.js"></script>
+
+    <div class="reveal">
+      <div class="slides">
+        <section
+          class="intro-slide title-slide"
+          data-background-image="./assets/images/header-footer-content-light.png"
+        >
+          <div class="top-row">
+            <div class="title">Intro to Docker</div>
+            <img class="whale" src="./assets/images/docker-whale.png">
+          </div>
+          <div class="presenter">
+            <div class="avatar-container">
+              <div class="avatar"></div>
+            </div>
+            <div>
+              <div>Hayden Braxton</div>
+              <a target="_blank" href="https://twitter.com/hayden_dev">@hayden_dev</a>
+            </div>
+          </div>
+        </section>
+
+        <section
+          class="content-slide"
+          data-background-image="./assets/images/header-footer-content-dark.png"
+        >
+          <div class="page-title">Before we get started</div>
+          <div>Install Docker!! <a target="_blank" href="https://www.docker.com/community-edition">docker.com/community-edition</a></div>
+          <br>
+          <div>Legacy Support <a target="_blank" href="https://docs.docker.com/toolbox/overview">docs.docker.com/toolbox/overview</a></div>
+          <br>
+          <div>Windows users, please switch to Linux containers</div>
+          <img src="./assets/images/switch-to-linux-containers.png">
+        </section>
+
+        <section
+          class="content-slide"
+          data-background-image="./assets/images/header-footer-content-dark.png"
+        >
+          <div class="page-title">Code Example</div>
+
+          <a href="https://github.com/haydenbr/bob-is-cool">github.com/haydenbr/bob-is-cool</a>
+        </section>
+
+        <section
+          class="content-slide"
+          data-background-image="./assets/images/header-footer-content-dark.png"
+        >
+          <div class="page-title">Agenda</div>
+
+          <ul>
+            <li class="fragment">Why was Docker created?</li>
+            <li class="fragment">What IS Docker, even?</li>
+            <li class="fragment">What's a container?</li>
+            <li class="fragment">What's an image?</li>
+            <li class="fragment">The Docker "Engine"</li>
+            <li class="fragment">Examples!</li>
+            <li class="fragment">What's next?</li>
+          </ul>
+
+          <aside class="notes">
+            Examples:
+            <ul>
+              <li>running containers</li>
+              <li>building images</li>
+              <li>advanced containers</li>
+              <li>use cases</li>
+              <li>a peek under the hood</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section
+          class="content-slide"
+          data-background-image="./assets/images/header-footer-content-dark.png"
+        >
+          <div class="page-title">About me</div>
+          <ul>
+            <li>Richmond, VA</li>
+            <li>Software Engineer at <a target="_blank" href="https://www.unboxedtechnology.com/dev-talks/">Unboxed Technology</a></li>
+            <li>I play with JavaScript and Docker</li>
+            <li class="fragment">Love me some Indian food!</li>
+            <br>
+            <a target="_blank" href="https://twitter.com/hayden_dev">@hayden_dev</a>
+          </ul>
+        </section>
+
+        <section data-background-image="./assets/images/orange-bg.png">
+          <div class="section-title">Why Docker?</div>
+
+          <aside class="notes">
+            <ul>
+              <li>2 main reasons: Efficiency, Consistency</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section data-background-image="./assets/images/dark-bg.png">
+          <div class="section-title">Efficiency</div>
+        </section>
+
+        <section
+          class="content-slide"
+          data-background-image="./assets/images/header-footer-content-dark.png"
+        >
+          <div class="page-title">Why Docker? Efficiency</div>
+
+          <div>Old days: one app per server</div>
+
+          <div style="margin-top: 50px; text-align: center">
+            <img width="550px" src="./assets/images/one-app-per-server.png">
+          </div>
+
+          <aside class="notes">
+            <ul>
+              <li>waste of computing resources</li>
+              <li>waste of money, time, personel</li>
+              <li>hard to maintain</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section
+          class="content-slide"
+          data-background-image="./assets/images/header-footer-content-dark.png"
+        >
+          <div class="page-title">Why Docker? Efficiency</div>
+
+          <div>Current state: Virtual Machines</div>
+
+          <div style="margin-top: 50px; text-align: center">
+            <img width="475px" src="./assets/images/vms.png">
+          </div>
+
+          <aside class="notes">
+            <ul>
+              <li>Overhead of running OS</li>
+              <li>Now we're in the cloud</li>
+              <li>Still paying for computing resources</li>
+              <li>dev environment vs prod environment</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section
+          class="content-slide"
+          data-background-image="./assets/images/header-footer-content-dark.png"
+        >
+          <div class="page-title">Why Docker? Efficiency</div>
+          <div>How the story goes with Docker</div>
+
+          <div style="margin-top: 50px; text-align: center">
+            <img width="475px" src="./assets/images/apps-in-containers.png">
+          </div>
+
+          <aside class="notes">
+            <ul>
+              <li>one machine, one OS, multiple containers</li>
+              <li>mahcine might be virtual</li>
+              <li>horizontal scaling, more instances per machine</li>
+              <li>isolation</li>
+              <li>updates?</li>
+              <li>container host</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section data-background-image="./assets/images/dark-bg.png">
+          <div class="section-title">Consistency</div>
+        </section>
+
+        <section data-background-image="./assets/images/dark-bg.png">
+          <img src="./assets/images/worked-on-my-mahcine.jpg">
+
+          <aside class="notes">
+            <ul>
+              <li>develop, ship, and run the same way</li>
+              <li>horizontal scaling: availability</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section data-background-image="./assets/images/orange-bg.png">
+          <div class="section-title">What is Docker?</div>
+        </section>
+
+        <section
+          class="content-slide"
+          data-background-image="./assets/images/header-footer-content-dark.png"
+        >
+          <div class="page-title">What is Docker?</div>
+
+          <div>Docker is a virtualization technology that allows you to create isolated, minimalistic environments that contain only the absolute necessary dependencies needed for a specific purpose.</div>
+
+          <div>
+            <img style="float: right;" width="550px" src="./assets/images/docker-logo.png">
+          </div>
+
+          <aside class="notes">
+            <ul>
+              <li>specific purpose: app, service, tasks</li>
+              <li>Docker as a technology</li>
+              <li>container platform</li>
+              <li>other container platforms</li>
+              <li>Docker as a company</li>
+              <li>Shipping container illustration</li>
+              <li>SOC: what's inside vs how it's shipped</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section
+          class="content-slide"
+          data-background-image="./assets/images/header-footer-content-dark.png"
+        >
+          <div class="page-title">Why should I learn Docker?</div>
+
+          <blockquote>“Gartner predicts that, by 2020, more than 50% of global organizations will be running containerized applications in production, up from less than 20% today.”</blockquote>
+          <a style="margin-left: 140px;" href="https://www.gartner.com/smarterwithgartner/6-best-practices-for-creating-a-container-platform-strategy/">source</a>
+
+          <aside class="notes">
+            <ul>
+              <li>production, or even just development</li>
+              <li>one more tool on the toolbelt</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section
+          class="content-slide"
+          data-background-image="./assets/images/header-footer-content-dark.png"
+        >
+          <div class="page-title">What is a container?</div>
+
+          <ul>
+            <li class="fragment">Virtual OS</li>
+            <li class="fragment">Containers share their host kernel</li>
+          </ul>
+
+          <div>
+            <img width="400px" style="float: right;" src="./assets/images/container.jpg">
+          </div>
+
+          <aside class="notes">
+            <ul>
+              <li>file system, process tree, network stack</li>
+              <li>container env isolated from others and host</li>
+              <li>linux container on linux host</li>
+              <li>container is abstraction of kernel primitives</li>
+              <li>linux container on non-linux</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section
+          class="content-slide"
+          data-background-image="./assets/images/header-footer-content-dark.png"
+        >
+          <div class="page-title">Container <span style="text-transform: lowercase;">vs</span> VM</div>
+
+          <ul>
+            <li>VMs paritions physical computing resources</li>
+            <li>VMs virtualize computer devices</li>
+            <li>Containers parition OS resources</li>
+          </ul>
+
+          <aside class="notes">
+            <ul>
+              <li>physical partitions require time</li>
+              <li>container: lightweight VM?</li>
+              <li>container: virtual OS</li>
+              <li>containers share same computing resources</li>
+              <li>dynamic resource allocation</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section
+          class="content-slide"
+          data-background-image="./assets/images/header-footer-content-dark.png"
+        >
+          <div class="page-title">What is an image?</div>
+
+          <ul>
+            <li class="fragment">Describes how containers should look</li>
+            <li class="fragment">Containers are instances of image</li>
+            <li class="fragment">Images are built from a Dockerfile</li>
+          </ul>
+
+          <aside class="notes">
+            <ul>
+              <li>Comparison to OS image</li>
+              <li>template</li>
+              <li>image is R/O</li>
+              <li>building images</li>
+              <li>build time / run time constructs</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section data-background-image="./assets/images/dark-bg.png">
+          <div class="page-title">Image Layers</div>
+          <img src="./assets/images/image-layers.jpg">
+
+          <aside class="notes">
+            <ul>
+              <li>Each layer is an image</li>
+              <li>union file system</li>
+              <li>image is r/o</li>
+              <li>container rw layer</li>
+              <li>copy on write</li>
+              <li>cached layers during builds</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section
+          class="content-slide"
+          data-background-image="./assets/images/header-footer-content-dark.png"
+        >
+          <div class="page-title">Docker hub</div>
+
+          <a target="_blank" href="https://hub.docker.com/">hub.docker.com</a>
+
+          <aside class="notes">
+            <ul>
+              <li>image registry</li>
+              <li>like github or npm</li>
+              <li>repos</li>
+              <li>official vs. non-official</li>
+              <li>repo naming convention</li>
+              <li>image tags: versioning</li>
+              <li>latest tag</li>
+              <li>Docker store</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section data-background-image="./assets/images/dark-bg.png">
+          <div class="page-title">Docker Engine</div> 
+          <img width="700px" src="./assets/images/docker-engine.png">
+
+          <aside class="notes">
+            <ul>
+              <li>same ux cross-platform</li>
+              <li>linux case</li>
+              <li>Client: cli</li>
+              <li>Daemon: manages docker objects</li>
+              <li>containerd: container run time, lifecycle</li>
+              <li>containerd: exposes gRPC api to daemon</li>
+              <li>containerd uses runc to create containers</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section data-background-image="./assets/images/dark-bg.png">
+          <div class="section-title">Let's get our hands dirty</div>
+          <div class="section-subtitle">demo time!</div>
+        </section>
+
+        <section data-background-image="./assets/images/orange-bg.png">
+          <div class="section-title">What's next?</div>
+        </section>
+
+        <section data-background-image="./assets/images/dark-bg.png">
+          <img width="500px" src="./assets/images/thanos.gif">
+        </section>
+
+        <section data-background-image="./assets/images/dark-bg.png">
+          <img width="600px" src="./assets/images/docker-compose.png">
+        </section>
+
+        <section data-background-image="./assets/images/dark-bg.png">
+          <div class="page-title">Container Orchestration</div>
+          <img src="./assets/images/swarm-vs-kube.jpg">
+
+          <aside class="notes">
+            <ul>
+              <li>replication in production</li>
+              <li>load testing use case</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section data-background-image="./assets/images/dark-bg.png">
+          <div class="section-title">Questions?</div>
+        </section>
+
+        <section data-background-image="./assets/images/dark-bg.png">
+          <div class="page-title">THANKS!</div>
+
+          <div class="final-image-container">
+            <img class="banana" src="./assets/images/banana.gif">
+            <img class="whale" src="./assets/images/docker-whale-containers.png">
+          </div>
+        </section>
+      </div>
+    </div>
+  </body>
+</html>
