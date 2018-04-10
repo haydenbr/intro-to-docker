@@ -1,5 +1,4 @@
-# Docker for JavaScript Developers
-
+# Intro to Docker
 You can either run the slides directly on your machine or inside a container.
 
 To run the slides directly on your machine, `yarn install` and then `yarn serve`.
